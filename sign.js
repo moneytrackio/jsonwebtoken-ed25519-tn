@@ -16,7 +16,7 @@ var sign_options_schema = {
   expiresIn: { isValid: function(value) { return isInteger(value) || isString(value); }, message: '"expiresIn" should be a number of seconds or string representing a timespan' },
   notBefore: { isValid: function(value) { return isInteger(value) || isString(value); }, message: '"notBefore" should be a number of seconds or string representing a timespan' },
   audience: { isValid: function(value) { return isString(value) || Array.isArray(value); }, message: '"audience" must be a string or array' },
-  algorithm: { isValid: includes.bind(null, ['RS256', 'RS384', 'RS512', 'ES256', 'ES384', 'ES512', 'HS256', 'HS384', 'HS512', 'Ed25519', 'none']), message: '"algorithm" must be a valid string enum value' },
+  algorithm: { isValid: includes.bind(null, ['RS256', 'RS384', 'RS512', 'ES256', 'ES384', 'ES512', 'HS256', 'HS384', 'HS512', 'ED25519', 'none']), message: '"algorithm" must be a valid string enum value' },
   header: { isValid: isPlainObject, message: '"header" must be an object' },
   encoding: { isValid: isString, message: '"encoding" must be a string' },
   issuer: { isValid: isString, message: '"issuer" must be a string' },
@@ -80,7 +80,7 @@ var options_for_objects = [
 function fixEd25519Signature(noneToken, privateKey) {
   var splitted = noneToken.split('.', 2);
   var header = JSON.parse(ed25519Utils.bufferFromString(splitted[0], 'base64'));
-  header.alg = 'EdDSA';
+  header.alg = 'ED25519';
   var securedInput = util.format('%s.%s', base64url(ed25519Utils.bufferFromString(JSON.stringify(header))), splitted[1]);
   var signature = base64url(ed25519.Sign(ed25519Utils.bufferFromString(securedInput), privateKey));
   return util.format('%s.%s', securedInput, signature);
@@ -198,7 +198,7 @@ module.exports = function (payload, secretOrPrivateKey, options, callback) {
   var encoding = options.encoding || 'utf8';
 
   var isEd25519 = false;
-  if (header.alg === 'Ed25519') {
+  if (header.alg === 'ED25519') {
     isEd25519 = true;
     try {
       secretOrPrivateKey = ed25519Utils.toPrivateKey(secretOrPrivateKey);
