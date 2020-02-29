@@ -32,8 +32,8 @@ describe('public key and private key in different formats (buffer, base64, hex)'
       Object.keys(publicKeyFormats).forEach(function(publicKeyFormat) {
         describe(publicKeyFormat, function() {
           it('should sign and verify', function (done) {
-            var token = jwt.sign({ foo: 'bar' }, { key: privateKeyFormats[privateKeyFormat], algorithm: 'Ed25519'});
-            jwt.verify(token, { key: publicKeyFormats[publicKeyFormat], algorithm: 'Ed25519' }, done);
+            var token = jwt.sign({ foo: 'bar' }, { key: privateKeyFormats[privateKeyFormat], algorithm: 'ED25519'});
+            jwt.verify(token, { key: publicKeyFormats[publicKeyFormat], algorithm: 'ED25519' }, done);
           });
         });
       });

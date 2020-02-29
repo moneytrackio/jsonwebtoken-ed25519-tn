@@ -25,7 +25,7 @@ var algorithms = {
     pub_key: loadKey('ecdsa-public.pem'),
     invalid_pub_key: loadKey('ecdsa-public-invalid.pem')
   },
-  Ed25519: {
+  ED25519: {
     priv_key: ed25519Keys.privateKey,
     pub_key: ed25519Keys.publicKey,
     invalid_pub_key: ed25519Keys.invalidPublicKey
